@@ -5,7 +5,7 @@ import { DashboardPage } from '../../pages/web/DashboardPage';
 import { MyInfoPage } from '../../pages/web/MyInfoPage';
 
 test.describe('OrangeHRM - Web', () => {
-  test('Login inválido: no debe entrar al dashboard', async ({ page }) => {
+  test('Caso 1: Login inválido: no debe entrar al dashboard', async ({ page }) => {
     const login = new LoginPage(page);
 
     await login.goto(orangehrm.baseURL);
@@ -20,7 +20,7 @@ test.describe('OrangeHRM - Web', () => {
     await page.waitForTimeout(5000);
   });
 
-  test('Login válido: debe entrar al dashboard', async ({ page }) => {
+  test('Caso 2: Login válido: debe entrar al dashboard', async ({ page }) => {
     const login = new LoginPage(page);
 
     await login.goto(orangehrm.baseURL);
@@ -59,4 +59,36 @@ test.describe('OrangeHRM - Web', () => {
       await page.waitForTimeout(4000);
     }
   });
+  test('Caso 4: llenar First Name solamente', async ({ page }) => {
+    const login = new LoginPage(page);
+    const dashboard = new DashboardPage(page);
+    const myInfo = new MyInfoPage(page);
+  
+    await login.goto(orangehrm.baseURL);
+    await login.login(
+      orangehrm.credentials.username,
+      orangehrm.credentials.password
+    );
+  
+    await dashboard.assertOnDashboard();
+    await dashboard.goToMyInfo();
+  
+    // 👇 ÚNICA acción del caso 4
+    await myInfo.fillFirstNameOnly('Guillermo');
+    await myInfo.fillMiddleNameOnly('Adrian');
+    await myInfo.fillLastNameOnly('Navarro');
+    await myInfo.fillEmployeeIdOnly('EMP-001');
+    await myInfo.fillOtherIdOnly('4957589');
+    await myInfo.fillDriversLicenseOnly('DL-00001');
+    await myInfo.fillLicenseExpiryDateOnly('2030-12-31');
+    await myInfo.selectNationalityOnly('Albanian');
+    await myInfo.selectMaritalStatus('Single');
+    await myInfo.fillDateOfBirth('1997-09-03');
+    await myInfo.selectGender('Female');
+    await myInfo.clickPersonalDetailsSave();
+
+    // Pausa para ver en pantalla
+    await page.waitForTimeout(3000);
+  });
+  
 });
