@@ -35,7 +35,7 @@ test.describe('OrangeHRM - Web', () => {
     await page.waitForTimeout(4000);
   });
 
-  test('Caso 3: Acceder a My Info y validar "Personal Details"', async ({ page }) => {
+  test('Caso 3: Acceder a My Info y validar menú y Personal Details', async ({ page }) => {
     const login = new LoginPage(page);
     const dashboard = new DashboardPage(page);
     const myInfo = new MyInfoPage(page);
@@ -59,7 +59,7 @@ test.describe('OrangeHRM - Web', () => {
       await page.waitForTimeout(4000);
     }
   });
-  test('Caso 4: llenar First Name solamente', async ({ page }) => {
+  test('Caso 4: Llenar y guardar información de Personal Details', async ({ page }) => {
     const login = new LoginPage(page);
     const dashboard = new DashboardPage(page);
     const myInfo = new MyInfoPage(page);
@@ -72,8 +72,6 @@ test.describe('OrangeHRM - Web', () => {
   
     await dashboard.assertOnDashboard();
     await dashboard.goToMyInfo();
-  
-    // 👇 ÚNICA acción del caso 4
     await myInfo.fillFirstNameOnly('Guillermo');
     await myInfo.fillMiddleNameOnly('Adrian');
     await myInfo.fillLastNameOnly('Navarro');

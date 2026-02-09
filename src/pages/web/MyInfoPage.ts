@@ -4,7 +4,7 @@ export class MyInfoPage {
   readonly page: Page;
   readonly titlePersonalDetails: Locator;
 
-  // 👇 NUEVO locator
+  //Locators
   readonly firstNameInput: Locator;
   readonly middleNameInput: Locator;
   readonly lastNameInput: Locator;
@@ -25,7 +25,7 @@ export class MyInfoPage {
     this.page = page;
     this.titlePersonalDetails = page.getByRole('heading', { name: 'Personal Details' });
 
-    // 👇 inicialización del locator
+  //Inicialización del locator
     this.firstNameInput = page.locator('input[name="firstName"]');
     this.middleNameInput = page.locator('input[name="middleName"]');
     this.lastNameInput = page.locator('input[name="lastName"]');
@@ -61,12 +61,11 @@ export class MyInfoPage {
     
     
   }
-
+  //Methods
   async assertPersonalDetailsVisible(): Promise<void> {
     await expect(this.titlePersonalDetails).toBeVisible();
   }
 
-  // 👇 NUEVO método (SOLO click + fill)
   async fillFirstNameOnly(name: string): Promise<void> {
     await this.firstNameInput.click();
     await this.firstNameInput.fill(name);
