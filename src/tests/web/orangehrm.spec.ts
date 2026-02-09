@@ -89,4 +89,23 @@ test.describe('OrangeHRM - Web', () => {
     await page.waitForTimeout(3000);
   });
   
+  test('Caso 5: Custom Fields – llenar y guardar información', async ({ page }) => {
+    const login = new LoginPage(page);
+    const dashboard = new DashboardPage(page);
+    const myInfo = new MyInfoPage(page);
+  
+    await login.goto(orangehrm.baseURL);
+    await login.login(orangehrm.credentials.username, orangehrm.credentials.password);
+    await dashboard.assertOnDashboard();
+    await dashboard.goToMyInfo();
+    await myInfo.assertPersonalDetailsVisible();
+    await myInfo.selectBloodTypeOnly('A+');
+    await myInfo.fillTestField('111');
+    await myInfo.saveCustomFields();
+
+    // Pausa opcional para ver en pantalla
+    await page.waitForTimeout(3000);
+  });
+  
+
 });

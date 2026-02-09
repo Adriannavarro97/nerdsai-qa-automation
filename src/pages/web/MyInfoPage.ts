@@ -19,6 +19,9 @@ export class MyInfoPage {
   readonly genderMaleRadio: Locator;
   readonly genderFemaleRadio: Locator;
   readonly personalDetailsSaveButton: Locator;
+  readonly bloodTypeSelect: Locator;
+  readonly testFieldInput: Locator;
+  readonly saveCustomFieldsButton: Locator;
 
 
   constructor(page: Page) {
@@ -58,6 +61,15 @@ export class MyInfoPage {
     this.personalDetailsSaveButton = page.locator(
       'form.oxd-form'
     ).first().getByRole('button', { name: 'Save' });
+    this.bloodTypeSelect = page
+      .locator('h6:has-text("Custom Fields")')
+      .locator('xpath=following::label[normalize-space()="Blood Type"]/following::div[contains(@class,"oxd-select-text-input")][1]');
+    this.testFieldInput = page
+      .locator('label:has-text("Test_Field")')
+      .locator('xpath=following::input[contains(@class,"oxd-input")][1]');
+    this.saveCustomFieldsButton = page
+      .locator('div.orangehrm-custom-fields')
+      .locator('button:has-text("Save")');
     
     
   }
@@ -119,6 +131,17 @@ export class MyInfoPage {
   }
   async clickPersonalDetailsSave(): Promise<void> {
     await this.personalDetailsSaveButton.click();
+  }
+  async selectBloodTypeOnly(value: string): Promise<void> {
+    await this.bloodTypeSelect.click();
+    await this.page.getByRole('option', { name: value, exact: true }).click();
+  }
+  async fillTestField(value: string): Promise<void> {
+    await this.testFieldInput.click();
+    await this.testFieldInput.fill(value);
+  }
+  async saveCustomFields(): Promise<void> {
+    await this.saveCustomFieldsButton.click();
   }
   
   
